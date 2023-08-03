@@ -1,0 +1,1 @@
+Laravel project using Inertia. Developed throught discovering Laracasts series Build Modern Laravel Apps Using Inertia.js. 
