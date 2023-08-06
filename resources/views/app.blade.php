@@ -8,8 +8,6 @@
     @inertiaHead
   </head>
   <body>
-    <section class="p-8">
-      <div id="app" data-page="{{ json_encode($page) }}"></div>
-    </section>
+    <div id="app" data-page="{{ json_encode($page) }}"></div>
   </body>
 </html>
