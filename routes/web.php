@@ -20,12 +20,19 @@ Route::get('/', function () {
     return Inertia::render('Home');
 });
 
-Route::get('/users', function () {
+Route::get('/users', function (Request $request) {
     return Inertia::render('Users', [
-        'users' => User::paginate(10)->through(fn($user) => [
-            'id' => $user->id,
-            'name' => $user->name
-        ])
+        'users' => User::query()
+            ->when($request->search, function ($query, $search) {
+                $query->where('name', 'like', '%' . $search . '%');
+            })
+            ->paginate(10)
+            ->withQueryString()
+            ->through(fn($user) => [
+                'id' => $user->id,
+                'name' => $user->name
+            ]),
+        'filters' => $request->only('search')
     ]);
 });
 
