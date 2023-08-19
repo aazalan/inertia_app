@@ -37,6 +37,9 @@
     import { ref, watch, getCurrentInstance } from 'vue';
     import Pagination from '../../Shared/Pagination.vue';
     import { router } from '@inertiajs/vue3';
+    import throttle from 'lodash/throttle';
+    import debounce from 'lodash/debounce';
+
 
     const props = defineProps({ 
         users : Object,
@@ -45,12 +48,13 @@
  
     let search = ref(props.filters.search);
 
-    watch(search, value => {
+    watch(search, debounce(value => {
         router.get('/users', { search: value }, {
             preserveState: true,
             replace: true
         });
-    })
+    }, 500)
+    );
 </script>
 
 <style>
