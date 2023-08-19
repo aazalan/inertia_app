@@ -20,8 +20,9 @@ Route::get('/', function () {
     return Inertia::render('Home');
 });
 
+
 Route::get('/users', function (Request $request) {
-    return Inertia::render('Users', [
+    return Inertia::render('Users/Index', [
         'users' => User::query()
             ->when($request->search, function ($query, $search) {
                 $query->where('name', 'like', '%' . $search . '%');
@@ -36,9 +37,29 @@ Route::get('/users', function (Request $request) {
     ]);
 });
 
+
+Route::get('/users/create', function () {
+    return Inertia::render('Users/Create');
+});
+
+
+Route::post('/users', function (Request $request) {
+    $validated = $request->validate([
+        'name' => 'required',
+        'email' => ['required', 'email', 'unique:users,email'],
+        'password' => 'required',
+    ]);
+
+    User::create($validated);
+    
+    return redirect('/users');
+});
+
+
 Route::get('/settings', function () {
     return Inertia::render('Settings');
 });
+
 
 Route::post('/logout', function (Request $request) {
     dd($request->testData);
