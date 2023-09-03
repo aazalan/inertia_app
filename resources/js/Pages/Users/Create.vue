@@ -73,7 +73,6 @@
     // let procesing = ref(false);
 
     let submit = () => {
-        
         form.post('/users');
     };
 </script>

@@ -3,14 +3,13 @@ import { Link, createInertiaApp, Head } from '@inertiajs/vue3';
 import Layout from './Shared/Layout.vue'
 
 createInertiaApp({
-  resolve: async name => {
-    // const pages = import.meta.glob('./Pages/**/*.vue', { eager: true });
-    // pages[`./Pages/${name}.vue`].default.layout = Layout;
-    // return pages[`./Pages/${name}.vue`];
+  resolve:  name => {
+    const pages =  import.meta.glob('./Pages/**/*.vue', { eager: true });
+    const page =  pages[`./Pages/${name}.vue`];
+    if (page.default.layout === undefined) {
+      page.default.layout =  Layout;
 
-    const pages = await import.meta.glob('./Pages/**/*.vue', { eager: true });
-    const page = await pages[`./Pages/${name}.vue`]
-    page.default.layout = await Layout;
+    }
     return page;
   },
   setup({ el, App, props, plugin }) {

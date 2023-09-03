@@ -4,7 +4,7 @@
         <div class="flex items-center ">
             <h1 class="text-3xl">Users</h1>
 
-            <Link href="/users/create" class="text-blue-500 text-sm ml-3 hover:underline">New User</Link>
+            <Link v-if="can.createUser" href="/users/create" class="text-blue-500 text-sm ml-3 hover:underline">New User</Link>
         </div>
 
         <input v-model="search" type="text" placeholder="search..." class="border px-2 rounded-lg">
@@ -17,7 +17,7 @@
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-for="user in users.data" :key="user.id">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" v-text="user.name">
                     </th>
-                    <td class="px-6 py-4">
+                    <td v-if="user.can.editUser" class="px-6 py-4">
                         <Link :href="`users/${user.id}/edit`"
                         class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                             Edit
@@ -42,8 +42,9 @@
 
 
     const props = defineProps({ 
-        users : Object,
-        filters: Object
+        users: Object,
+        filters: Object,
+        can: Object
      });
  
     let search = ref(props.filters.search);
